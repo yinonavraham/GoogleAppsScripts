@@ -116,7 +116,8 @@ function EnhancedCache(cache) {
    * @param {string} key
    * @param {string} value
    * @param {number} ttl (optional) time-to-live in seconds for the key:value pair in the cache
-   * @param {function(object)} stringify (optional) function to use for converting the object to string
+   * @param {function(object)} stringify (optional) function to use for converting the object to string. If not specified, JSON's stringify function is used:
+   * <pre>stringify = function(obj) { return JSON.stringify(obj); };</pre>
    */
   this.putObject = function(key,value,ttl,stringify) {
     stringify = stringify || JSON.stringify;
@@ -129,8 +130,9 @@ function EnhancedCache(cache) {
   /**
    * Get an object from the cache
    * @param {string} key
-   * @param {function(string)} parse (optional) function to use for converting the string to an object
-   * @return The object, or null if none is found
+   * @param {function(string)} parse (optional) function to use for converting the string to an object. If not specified, JSON's parse function is used:
+   * <pre>parse = function(text) { return JSON.parse(text); };</pre>
+   * @return {object} The object, or null if none is found
    */
   this.getObject = function(key,parse) {
     parse = parse || JSON.parse;
