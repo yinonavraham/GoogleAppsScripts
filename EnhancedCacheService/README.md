@@ -30,3 +30,5 @@ var d = cache.getObject('d1',function(s) { return new Date(+s); });
 //Get the date an entry was last updated
 var k1lu = cache.getLastUpdate('k1'); //k1lu === a Date instance
 ```
+
+Blog post I wrote describing this service: [EnhancedCacheService - A Google Apps Script Library](http://orange-coding.blogspot.co.il/2014/10/enhancedcacheservice-google-apps-script.html)
