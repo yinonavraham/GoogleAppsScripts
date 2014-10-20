@@ -14,7 +14,7 @@ function SizeType_(name, factor) {
 }
 
 /**
- * Enumeration of time period types
+ * Enumeration of size types
  */
 var SizeType = Object.freeze({
   /** Bytes */
@@ -46,7 +46,7 @@ var SizeType = Object.freeze({
     return values;
   },
   /** 
-   * Get a DataType by its name
+   * Get a SizeType by its name
    * @param {string} name
    * @return {SizeType} The matching SizeType object, or null if there is no match
    */
