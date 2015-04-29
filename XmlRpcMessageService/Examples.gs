@@ -107,6 +107,6 @@
 //function testBinding() {
 //  var url = "https://wordpress.com/xmlrpc.php";
 //  var service = bind(url);
-//  var result = service["wp.getUsersBlogs"]("username", "password");
+//  var result = service.wp.getUsersBlogs("username", "password");
 //  Logger.log(result);
 //}
