@@ -89,6 +89,17 @@ function bind(url, methods) {
   for (var i = 0; i < methodNames.length; i++) {
     var methodName = methodNames[i];
     service[methodName] = createFunctionBinding_(url, methodName);
+    var nameParts = methodName.split(".");
+    if (nameParts.length > 1) {
+      var obj = service;
+      var j = 0;
+      for (; j < nameParts.length-1; j++) {
+        var name = nameParts[j];
+        obj[name] = obj[name] || {};
+        obj = obj[name];
+      }
+      obj[(nameParts[j])] = service[methodName];
+    }
   }
   return service;
 }
