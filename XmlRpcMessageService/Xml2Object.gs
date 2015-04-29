@@ -3,16 +3,33 @@ function xmlToMethodResponseObj_(xml) {
   var methodResponseXml = document.getRootElement();
   var methodResponseObj = {};
   var paramsXml = methodResponseXml.getChild('params');
+  var faultXml = methodResponseXml.getChild('fault');
   if (paramsXml) {
-    methodResponseObj.params = [];
-    var paramsXmlChildren = paramsXml.getChildren('param');
-    for (var i = 0; i < paramsXmlChildren.length; i++) {
-      var paramXml = paramsXmlChildren[i];
-      var valueXml = paramXml.getChild('value');
-      var valueObj = xmlToValueObj_(valueXml);
-      methodResponseObj.params.push(valueObj);
-    }
+    methodResponseObj = xmlToMethodResponseParamsObj_(paramsXml);
+  } else if (faultXml) {
+    methodResponseObj = xmlToMethodResponseFaultObj_(faultXml);
   }
+  return methodResponseObj;
+}
+
+function xmlToMethodResponseParamsObj_(paramsXml) {
+  var methodResponseObj = {};
+  methodResponseObj.params = [];
+  var paramsXmlChildren = paramsXml.getChildren('param');
+  for (var i = 0; i < paramsXmlChildren.length; i++) {
+    var paramXml = paramsXmlChildren[i];
+    var valueXml = paramXml.getChild('value');
+    var valueObj = xmlToValueObj_(valueXml);
+    methodResponseObj.params.push(valueObj);
+  }
+  return methodResponseObj;
+}
+
+function xmlToMethodResponseFaultObj_(faultXml) {
+  var methodResponseObj = {};
+  var valueXml = faultXml.getChild('value');
+  var valueObj = xmlToValueObj_(valueXml);
+  methodResponseObj.fault = valueObj;
   return methodResponseObj;
 }
 
@@ -21,11 +38,12 @@ function xmlToValueObj_(valueXml) {
   var dataXml = valueXml.getChildren()[0];
   var typeName = dataXml.getName();
   switch (typeName) {
-    case 'string': valueObj.type = 'string';   valueObj.value = xmlToStringValueObj_(dataXml);  break;
-    case 'double': valueObj.type = 'double';   valueObj.value = xmlToDoubleValueObj_(dataXml);  break;
+    case 'string':  valueObj.type = 'string';  valueObj.value = xmlToStringValueObj_(dataXml);  break;
+    case 'double':  valueObj.type = 'double';  valueObj.value = xmlToDoubleValueObj_(dataXml);  break;
+    case 'int':     valueObj.type = 'int';     valueObj.value = xmlToIntValueObj_(dataXml);     break;
     case 'boolean': valueObj.type = 'boolean'; valueObj.value = xmlToBooleanValueObj_(dataXml); break;
-    case 'array':  valueObj.type = 'array';    valueObj.value = xmlToArrayValueObj_(dataXml);   break;
-    case 'struct': valueObj.type = 'struct';   valueObj.value = xmlToStructValueObj_(dataXml);  break;
+    case 'array':   valueObj.type = 'array';   valueObj.value = xmlToArrayValueObj_(dataXml);   break;
+    case 'struct':  valueObj.type = 'struct';  valueObj.value = xmlToStructValueObj_(dataXml);  break;
     default: throw new Error("Unexpected data type: " + typeName);
   }
   return valueObj;
@@ -37,6 +55,10 @@ function xmlToStringValueObj_(stringXml) {
 
 function xmlToDoubleValueObj_(doubleXml) {
   return parseFloat(doubleXml.getText());
+}
+
+function xmlToIntValueObj_(intXml) {
+  return parseInt(intXml.getText());
 }
 
 function xmlToBooleanValueObj_(booleanXml) {
