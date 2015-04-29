@@ -82,3 +82,35 @@ function execMethodCall(url,methodCall,onSuccess,onError,overrideOptions) {
   }
   return responseObj;
 }
+
+function bind(url, methods) {
+  var methodNames = methods || getMethodNames(url);
+  var service = {};
+  for (var i = 0; i < methodNames.length; i++) {
+    var methodName = methodNames[i];
+    service[methodName] = createFunctionBinding_(url, methodName);
+  }
+  return service;
+}
+
+function createFunctionBinding_(url, methodName) {
+  return function() {
+    var methodCall = {
+      methodName : methodName,
+      params : arguments
+    };
+    var methodResponse;
+    execMethodCall(url,methodCall,function(mr){methodResponse=mr;});
+    if (methodResponse.fault) {
+      throw new Error(Utilities.formatString("%d - %s", methodResponse.fault.faultCode, methodResponse.fault.faultString));
+    } else if (methodResponse.params && methodResponse.params.length > 0) {
+      return methodResponse.params[0];
+    }
+  };
+}
+
+function getMethodNames(url) {
+  var listMethods = createFunctionBinding_(url, ["system.listMethods"]);
+  var methodNames = listMethods();
+  return methodNames;
+}
