@@ -63,6 +63,8 @@ function execMethodCall(url,methodCall,onSuccess,onError,overrideOptions) {
       case 400: throw new Error("400- Bad request");
       case 404: throw new Error("404- Not found");
       case 401: throw new Error("401- Unauthorized");
+      case 403: throw new Error("403- Forbidden");
+      case 500: throw new Error("500- Internal server error");
       case 503: throw new Error("503- Service is unavailable");
       default: throw new Error("" + responseCode);
     }
