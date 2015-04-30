@@ -21,8 +21,10 @@ function login() {
 
 A more simple API can be achieved using service binding. In this option, a service object is created with binding to a server URL. The service object then has native JavaScript functions for each remote server method. Calling a remote method is simple as calling any other JavaScript function. The example above can be changed to:
 ```javascript
+// Create the service binding
 var url = "http://api.opensubtitles.org/xml-rpc";
 var service = XmlRpcMessageService.bind(url);
+// Call the service method as a native JS function
 var result = service.LogIn("", "", "he", "OS Test User Agent");
 var token = result.token;
 ```
