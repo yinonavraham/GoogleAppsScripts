@@ -3,7 +3,7 @@
 A service for simplifying the usage of [XML-RPC](http://xmlrpc.scripting.com/spec.html) services from JavaScript in Google Apps Script. To include this library in your project, add the following project key to your dependencies:
 `MnNFSfwH_9vxu1ezJ2OiczhHiNulVL0Kf`
 
-# Service Binding
+## Service Binding
 
 A simple API can be achieved using service binding. In this option, a service object is created with binding to a server URL. The service object then has native JavaScript functions for each remote server method. Calling a remote method is simple as calling any other JavaScript function. The following is an example for calling the login method of [OpenSubtitles.org](http://www.opensubtitles.org) service:
 ```javascript
@@ -20,7 +20,7 @@ This is done with the following assumptions:
 * The response contains at most one `param` element (if not a `fault` response).
 * Any fault response is handled as an `Error` and is thrown.
 
-# Advanced Usage
+## Advanced Usage
 
 A more advanced and flexible option is to do the method calls yourself. For this you can use methods to create method call XML from a simple JavaScript object, and parsing method response XML to a JavaScript object.
 This service also provides a method for posting method calls to a URL and parse the response.
@@ -41,7 +41,7 @@ function login() {
 }
 ```
 
-# Limitations
+## Limitations
 
 * The supported data types are:
   * `string`
