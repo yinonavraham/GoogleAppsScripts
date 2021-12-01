@@ -34,7 +34,9 @@ function EnhancedCache(cache) {
    */
   this.remove = function(key) {
     var valueDescriptor = getValueDescriptor(key);
-    if (valueDescriptor.keys) {
+    if (valueDescriptor=== null){
+      return null
+      }else if(valueDescriptor.keys) {
       for (var i = 0; i < valueDescriptor.keys.length; i++) {
         var k = valueDescriptor.keys[i];
         remove_(k);
